@@ -33,45 +33,38 @@ package body Tests is
    procedure Swap_Endian_Test (Object : in out Fixture) is
    begin
       declare
-         procedure Swap is new Swap_Endian (Integer);
-         A : aliased Integer := 42;
+         function Swap is new Swap_Endian (Integer);
       begin
-         Swap (A);
-         Assert (A = 704_643_072, "Integer swap");
-         Swap (A);
-         Assert (A = 42, "Integer swap reflexive");
+         Assert (Swap (42) = 704_643_072, "Integer swap");
+         Assert (Swap (Swap (42)) = 42, "Integer swap reflexive");
       end;
 
       declare
-         procedure Swap is new Swap_Endian (Integer_8);
-         A : aliased Integer_8 := 10;
+         function Swap is new Swap_Endian (Integer_8);
       begin
-         Swap (A);
-         Assert (A = 10, "Integer_8 swap");
+         Assert (Swap (Integer_8 (10)) = 10, "Integer_8 swap");
       end;
 
       declare
-         procedure Swap is new Swap_Endian (Unsigned_16);
-         A : aliased Unsigned_16 := 10;
+         function Swap is new Swap_Endian (Unsigned_16);
       begin
-         Swap (A);
-         Assert (A = 2_560, "Unsigned_16 swap");
+         Assert (Swap (Unsigned_16 (10)) = 2_560, "Unsigned_16 swap");
       end;
 
       declare
-         procedure Swap is new Swap_Endian (Long_Long_Integer);
-         A : aliased Long_Long_Integer := 10;
+         function Swap is new Swap_Endian (Long_Long_Integer);
       begin
-         Swap (A);
-         Assert (A = 720_575_940_379_279_360, "Long_Long_Integer swap");
+         Assert
+           (Swap (Long_Long_Integer (10)) = 720_575_940_379_279_360,
+            "Long_Long_Integer swap");
       end;
 
       declare
-         procedure Swap is new Swap_Endian (Unsigned_64);
-         A : aliased Unsigned_64 := 10;
+         function Swap is new Swap_Endian (Unsigned_64);
       begin
-         Swap (A);
-         Assert (A = 720_575_940_379_279_360, "Unsigned_64 swap");
+         Assert
+           (Swap (Unsigned_64 (10)) = 720_575_940_379_279_360,
+            "Unsigned_64 swap");
       end;
    end Swap_Endian_Test;
 
