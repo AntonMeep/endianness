@@ -97,7 +97,7 @@ jobs:
       run: sudo apt update
 
     - name: Set up GNAT toolchain (Community)
-      uses: ada-actions/toolchain@ce2020
+      uses: ada-actions/toolchain@ce2021
       with:
         distrib: community
 
