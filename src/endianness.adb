@@ -5,6 +5,10 @@ with GNAT.Byte_Swapping;
 with System; use System;
 
 package body Endianness is
+   pragma Compile_Time_Error
+     (Stream_Element'Modulus /= 2**8,
+      "'Stream_Element' type must be mod 2**8, i.e. represent a byte");
+
    generic
       type Source is (<>);
    function Split_Into_Bytes (Value : Source) return Stream_Element_Array with
