@@ -27,11 +27,17 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: sudo apt update
 
-    - name: Install toolchain
+    - name: Set up GNAT toolchain (FSF)
+      if: matrix.compiler == 'fsf'
       uses: ada-actions/toolchain@ce2021
       with:
-        distrib: ${{matrix.compiler}}
-        target: native
+        distrib: fsf # faster install?
+
+    - name: Set up GNAT toolchain (Community)
+      if: matrix.compiler == 'community'
+      uses: ada-actions/toolchain@ce2020
+      with:
+        distrib: community
 
     - name: Install Alire
       uses: alire-project/setup-alire@v1
