@@ -1,6 +1,5 @@
 with AUnit.Reporter.Text;
 with AUnit.Run;
-with AUnit.Test_Suites;
 
 with Tests;
 
