@@ -51,7 +51,8 @@ package body Endianness is
             end;
          when others =>
             raise Constraint_Error
-              with "`Source'Max_Size_In_Storage_Elements` is not 1, 2, 4 or 8 bytes.";
+              with "`Source'Max_Size_In_Storage_Elements` is not" &
+              " 1, 2, 4 or 8 bytes.";
       end case;
       pragma Warnings
         (On, "types for unchecked conversion have different sizes");

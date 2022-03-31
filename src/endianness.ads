@@ -1,5 +1,4 @@
 with Ada.Streams; use Ada.Streams;
-with Interfaces;  use Interfaces;
 
 package Endianness with
    Pure,
