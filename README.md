@@ -20,13 +20,13 @@ with Interfaces; use Interfaces;
 with Endianness; use Endianness;
 
 procedure Main is
-    procedure Swap is new Swap_Endian (Integer_32);
+    function Swap is new Swap_Endian (Integer_32);
     function To_Big is new Native_To_Big_Endian (Unsigned_64);
     function To_Little is new Native_To_Little_Endian (Unsigned_64);
 
     A : aliased Integer_32 := 16#000000FF#;
 begin
-    Swap (A); --  Now A is equal to 16#FF000000#
+    A := Swap (A); --  Now A is equal to 16#FF000000#
 
     To_Big (Unsigned_64 (16#12345678ABCDEF00#));
     --  Yields an array of 16#12#, 16#34#, 16#56#, etc.
