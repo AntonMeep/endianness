@@ -60,7 +60,7 @@ jobs:
 
     - name: Build tests
       run: >
-        cd example &&
+        cd tests &&
         alr build
         -XENDIANNESS_LIBRARY_TYPE=static
         -XENDIANNESS_COMPILE_CHECKS=enabled
