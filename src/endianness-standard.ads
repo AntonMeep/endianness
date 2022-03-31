@@ -3,6 +3,9 @@ package Endianness.Standard with
    Preelaborate,
    SPARK_Mode => On
 is
+   --  @summary
+   --  Instance of Endianness' functions for Standard integer types
+
    function Swap_Endian is new Endianness.Swap_Endian (Short_Short_Integer);
    function Swap_Endian is new Endianness.Swap_Endian (Short_Integer);
    function Swap_Endian is new Endianness.Swap_Endian (Integer);

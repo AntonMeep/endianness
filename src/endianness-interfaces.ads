@@ -5,6 +5,9 @@ package Endianness.Interfaces with
    Preelaborate,
    SPARK_Mode => On
 is
+   --  @summary
+   --  Instance of Endianness' functions for Interfaces' integer types
+
    function Swap_Endian is new Endianness.Swap_Endian (Integer_8);
    function Swap_Endian is new Endianness.Swap_Endian (Integer_16);
    function Swap_Endian is new Endianness.Swap_Endian (Integer_32);
