@@ -96,10 +96,10 @@ jobs:
     - name: Update system repositories
       run: sudo apt update
 
-    - name: Set up GNAT toolchain (FSF)
-      uses: ada-actions/toolchain@ce2021
+    - name: Set up GNAT toolchain (Community)
+      uses: ada-actions/toolchain@ce2020
       with:
-        distrib: fsf # faster install?
+        distrib: community
 
     - name: Run gnatprove
       run: gnatprove -P endianness.gpr
