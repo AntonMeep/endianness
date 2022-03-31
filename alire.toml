@@ -1,5 +1,5 @@
 name = "endianness"
-description = "Convenience subprograms to convert data between Big- and Little-endianness"
+description = "Convenience subprograms to convert between Big- and Little-endianness"
 version = "1.0.0"
 website = "https://github.com/AntonMeep/endianness"
 licenses = "ISC"
