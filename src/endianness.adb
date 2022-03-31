@@ -7,15 +7,27 @@ with System; use System;
 package body Endianness is
    generic
       type Source is (<>);
-   function Split_Into_Bytes (Value : Source) return Stream_Element_Array;
+   function Split_Into_Bytes (Value : Source) return Stream_Element_Array with
+      Global => null,
+      Post   => Split_Into_Bytes'Result'Length =
+      Source'Max_Size_In_Storage_Elements;
 
    generic
       type Target is (<>);
-   function Assemble_From_Bytes (Value : Stream_Element_Array) return Target;
+   function Assemble_From_Bytes
+     (Value : Stream_Element_Array) return Target with
+      Global => null,
+      Pre    => Value'Length = Target'Max_Size_In_Storage_Elements;
 
    function Swap_Endian (Value : Source) return Source is
       use GNAT.Byte_Swapping;
    begin
+      pragma Warnings
+        (Off, "types for unchecked conversion have different sizes",
+         Reason =>
+           "We are dynamically choosing different SwappedN implementations," &
+           " there is no way to actually perform a conversion on types with" &
+           " different sizes.");
       case Source'Max_Size_In_Storage_Elements is
          when 1 =>
             return Value;
@@ -38,8 +50,11 @@ package body Endianness is
                return Swap (Value);
             end;
          when others =>
-            raise Constraint_Error with "`Source'Size` is not 16, 32 or 64";
+            raise Constraint_Error
+              with "`Source'Max_Size_In_Storage_Elements` is not 1, 2, 4 or 8 bytes.";
       end case;
+      pragma Warnings
+        (On, "types for unchecked conversion have different sizes");
    end Swap_Endian;
 
    function Native_To_Big_Endian (Value : Source) return Stream_Element_Array
@@ -91,13 +106,31 @@ package body Endianness is
         Stream_Element_Array (0 .. Source'Max_Size_In_Storage_Elements - 1);
 
       function Convert is new Ada.Unchecked_Conversion (Source, Output_Type);
+      pragma Annotate
+        (GNATprove, Intentional,
+         "types used for unchecked conversion do not have the same size",
+         "Because 'Object_Size needs to be static, we have to rely on" &
+         " correctness of the definition of Output_Type.");
+      pragma Annotate
+        (GNATprove, Intentional,
+         "type is unsuitable as a target for unchecked conversion", "ditto");
    begin
       return Convert (Value);
    end Split_Into_Bytes;
 
    function Assemble_From_Bytes (Value : Stream_Element_Array) return Target is
+      pragma Assert (Value'Length = Target'Max_Size_In_Storage_Elements);
+
       function Convert is new Ada.Unchecked_Conversion
         (Stream_Element_Array, Target);
+      pragma Annotate
+        (GNATprove, Intentional,
+         "types used for unchecked conversion do not have the same size",
+         "We're making sure that length of the Stream_Element_Array is equal" &
+         " to the number of bytes in Target.");
+      pragma Annotate
+        (GNATProve, Intentional, "type is unsuitable for unchecked conversion",
+         "ditto");
    begin
       return Convert (Value);
    end Assemble_From_Bytes;
