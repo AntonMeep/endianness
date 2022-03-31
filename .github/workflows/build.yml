@@ -46,6 +46,7 @@ jobs:
 
     - name: Build debug, static
       run: >
+        alr clean &&
         alr build
         -XENDIANNESS_LIBRARY_TYPE=static
         -XENDIANNESS_COMPILE_CHECKS=enabled
@@ -56,6 +57,7 @@ jobs:
 
     - name: Build debug, relocatable
       run: >
+        alr clean &&
         alr build
         -XENDIANNESS_LIBRARY_TYPE=relocatable
         -XENDIANNESS_COMPILE_CHECKS=enabled
@@ -67,6 +69,7 @@ jobs:
     - name: Build tests
       run: >
         cd tests &&
+        alr clean &&
         alr build
         -XENDIANNESS_LIBRARY_TYPE=static
         -XENDIANNESS_COMPILE_CHECKS=enabled
