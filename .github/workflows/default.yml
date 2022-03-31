@@ -101,5 +101,12 @@ jobs:
       with:
         distrib: community
 
+    - name: Install Alire
+      uses: alire-project/setup-alire@v1
+      with:
+        toolchain: "gnat_external"
+
     - name: Run gnatprove
-      run: gnatprove -P endianness.gpr
+      run: |
+        eval `alr printenv --unix`
+        gnatprove -P endianness.gpr
