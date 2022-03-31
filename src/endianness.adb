@@ -9,7 +9,9 @@ package body Endianness is
       type Source is (<>);
    function Split_Into_Bytes (Value : Source) return Stream_Element_Array with
       Global => null,
-      Post   => Split_Into_Bytes'Result'Length =
+      Pre => Source'Size = 8 or else Source'Size = 16 or else Source'Size = 32
+      or else Source'Size = 64,
+      Post => Split_Into_Bytes'Result'Length =
       Source'Max_Size_In_Storage_Elements;
 
    generic
@@ -17,7 +19,10 @@ package body Endianness is
    function Assemble_From_Bytes
      (Value : Stream_Element_Array) return Target with
       Global => null,
-      Pre    => Value'Length = Target'Max_Size_In_Storage_Elements;
+      Pre    =>
+      (Target'Size = 8 or else Target'Size = 16 or else Target'Size = 32
+       or else Target'Size = 64)
+      and then Value'Length = Target'Max_Size_In_Storage_Elements;
 
    function Swap_Endian (Value : Source) return Source is
       use GNAT.Byte_Swapping;
@@ -110,8 +115,7 @@ package body Endianness is
       pragma Annotate
         (GNATprove, Intentional,
          "types used for unchecked conversion do not have the same size",
-         "Because 'Object_Size needs to be static, we have to rely on" &
-         " correctness of the definition of Output_Type.");
+         "We correctly define Output_Type");
       pragma Annotate
         (GNATprove, Intentional,
          "type is unsuitable as a target for unchecked conversion", "ditto");
@@ -127,8 +131,7 @@ package body Endianness is
       pragma Annotate
         (GNATprove, Intentional,
          "types used for unchecked conversion do not have the same size",
-         "We're making sure that length of the Stream_Element_Array is equal" &
-         " to the number of bytes in Target.");
+         "We're checking it with a pragma");
       pragma Annotate
         (GNATProve, Intentional, "type is unsuitable for unchecked conversion",
          "ditto");
