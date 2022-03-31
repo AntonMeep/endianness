@@ -2,7 +2,7 @@ endianness
 [![License](https://img.shields.io/github/license/AntonMeep/endianness.svg?color=blue)](https://github.com/AntonMeep/endianness/blob/master/LICENSE.txt)
 [![Alire crate](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/endianness.json)](https://alire.ada.dev/crates/endianness.html)
 [![GitHub release](https://img.shields.io/github/release/AntonMeep/endianness.svg)](https://github.com/AntonMeep/endianness/releases/latest)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AntonMeep/endianness/Build)](https://github.com/AntonMeep/endianness/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AntonMeep/endianness/Default)](https://github.com/AntonMeep/endianness/actions)
 =======
 
 **endianness** is a set of convenience subprograms for Ada, that allow for easy

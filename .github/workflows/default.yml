@@ -1,4 +1,4 @@
-name: Build
+name: Default
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Building on ${{matrix.os}} using ${{matrix.compiler}}
+    name: Build on ${{matrix.os}} using ${{matrix.compiler}}
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
@@ -85,3 +85,22 @@ jobs:
 
     - name: Run tests
       run: ./tests/bin/endianness_tests
+
+  prove:
+    name: SPARK Proof
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Update system repositories
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt update
+
+    - name: Set up GNAT toolchain (FSF)
+      uses: ada-actions/toolchain@ce2021
+      with:
+        distrib: fsf # faster install?
+
+    - name: Run gnatprove
+      run: gnatprove -P endianness.gpr
