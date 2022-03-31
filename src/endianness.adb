@@ -120,6 +120,11 @@ package body Endianness is
         (GNATprove, Intentional,
          "type is unsuitable as a target for unchecked conversion", "ditto");
    begin
+      if Source'Size /= 8 or else Source'Size /= 16 or else Source'Size /= 32
+        or else Source'Size /= 64
+      then
+         raise Constraint_Error with "Source'Size must be 8, 16, 32, or 64";
+      end if;
       return Convert (Value);
    end Split_Into_Bytes;
 
@@ -136,6 +141,11 @@ package body Endianness is
         (GNATProve, Intentional, "type is unsuitable for unchecked conversion",
          "ditto");
    begin
+      if Target'Size /= 8 or else Target'Size /= 16 or else Target'Size /= 32
+        or else Target'Size /= 64
+      then
+         raise Constraint_Error with "Target'Size must be 8, 16, 32, or 64";
+      end if;
       return Convert (Value);
    end Assemble_From_Bytes;
 end Endianness;
