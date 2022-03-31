@@ -8,7 +8,7 @@ package Endianness with
 is
    generic
       type Source is (<>);
-   procedure Swap_Endian (Value : aliased in out Source) with
+   function Swap_Endian (Value : Source) return Source with
       Global => null;
 
    generic

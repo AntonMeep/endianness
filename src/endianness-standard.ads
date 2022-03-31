@@ -3,11 +3,11 @@ package Endianness.Standard with
    Preelaborate,
    SPARK_Mode => On
 is
-   procedure Swap_Endian is new Endianness.Swap_Endian (Short_Short_Integer);
-   procedure Swap_Endian is new Endianness.Swap_Endian (Short_Integer);
-   procedure Swap_Endian is new Endianness.Swap_Endian (Integer);
-   procedure Swap_Endian is new Endianness.Swap_Endian (Long_Integer);
-   procedure Swap_Endian is new Endianness.Swap_Endian (Long_Long_Integer);
+   function Swap_Endian is new Endianness.Swap_Endian (Short_Short_Integer);
+   function Swap_Endian is new Endianness.Swap_Endian (Short_Integer);
+   function Swap_Endian is new Endianness.Swap_Endian (Integer);
+   function Swap_Endian is new Endianness.Swap_Endian (Long_Integer);
+   function Swap_Endian is new Endianness.Swap_Endian (Long_Long_Integer);
 
    function Native_To_Big_Endian is new Endianness.Native_To_Big_Endian
      (Short_Short_Integer);
