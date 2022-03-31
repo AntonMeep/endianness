@@ -106,6 +106,9 @@ jobs:
       with:
         toolchain: "gnat_external"
 
+    - name: Build
+      run: alr build
+
     - name: Run gnatprove
       run: |
         eval `alr printenv --unix`
