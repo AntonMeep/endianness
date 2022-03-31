@@ -3,6 +3,7 @@ description = "Convenience subprograms to convert between Big- and Little-endian
 version = "1.0.0"
 website = "https://github.com/AntonMeep/endianness"
 licenses = "ISC"
+tags = ["spark", "endianness", "system"]
 
 authors = ["Anton Fediushin"]
 maintainers = ["Anton Fediushin <imantonmeep@gmail.com>"]
