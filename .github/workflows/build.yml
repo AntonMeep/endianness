@@ -1,0 +1,73 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  release:
+    types: [created]
+
+jobs:
+  build:
+    name: Building on ${{matrix.os}} using ${{matrix.compiler}}
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        compiler: [community fsf]
+        exclude:
+          - os: windows-latest
+            compiler: fsf
+          - os: macos-latest
+            compiler: fsf
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install toolchain
+      uses: ada-actions/toolchain@ce2020
+      with:
+        distrib: ${{matrix.compiler}}
+        target: native
+
+    - name: Install Alire
+      uses: alire-project/setup-alire@v1
+      with:
+        toolchain: "gnat_external"
+
+    - name: Build debug, static
+      run: >
+        alr build
+        -XENDIANNESS_LIBRARY_TYPE=static
+        -XENDIANNESS_COMPILE_CHECKS=enabled
+        -XENDIANNESS_RUNTIME_CHECKS=enabled
+        -XENDIANNESS_STYLE_CHECKS=enabled
+        -XENDIANNESS_CONTRACTS=enabled
+        -XENDIANNESS_BUILD_MODE=debug
+
+    - name: Build debug, relocatable
+      run: >
+        alr build
+        -XENDIANNESS_LIBRARY_TYPE=relocatable
+        -XENDIANNESS_COMPILE_CHECKS=enabled
+        -XENDIANNESS_RUNTIME_CHECKS=enabled
+        -XENDIANNESS_STYLE_CHECKS=enabled
+        -XENDIANNESS_CONTRACTS=enabled
+        -XENDIANNESS_BUILD_MODE=debug
+
+    - name: Build tests
+      run: >
+        cd example &&
+        alr build
+        -XENDIANNESS_LIBRARY_TYPE=static
+        -XENDIANNESS_COMPILE_CHECKS=enabled
+        -XENDIANNESS_RUNTIME_CHECKS=enabled
+        -XENDIANNESS_STYLE_CHECKS=enabled
+        -XENDIANNESS_CONTRACTS=enabled
+        -XENDIANNESS_BUILD_MODE=debug
+        -XENDIANNESS_TESTS_COMPILE_CHECKS=enabled
+        -XENDIANNESS_TESTS_RUNTIME_CHECKS=enabled
+        -XENDIANNESS_TESTS_STYLE_CHECKS=enabled
+        -XENDIANNESS_TESTS_CONTRACTS=enabled
+        -XENDIANNESS_TESTS_BUILD_MODE=debug
+    - name: Run tests
+      run: ./bin/endianness_tests
