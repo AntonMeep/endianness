@@ -73,5 +73,6 @@ jobs:
         -XENDIANNESS_TESTS_STYLE_CHECKS=enabled
         -XENDIANNESS_TESTS_CONTRACTS=enabled
         -XENDIANNESS_TESTS_BUILD_MODE=debug
+
     - name: Run tests
-      run: ./bin/endianness_tests
+      run: ./tests/bin/endianness_tests
